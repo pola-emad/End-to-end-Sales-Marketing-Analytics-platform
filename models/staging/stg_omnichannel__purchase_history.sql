@@ -7,7 +7,7 @@ with raw_purchase_history AS
         quantity,
         discount,
         order_date
-    FROM {{ source("omnichannel","PurchaseHistory")}}
+    FROM {{ source("omnichannel","purchaseHistory")}}
 )
 SELECT
 *
