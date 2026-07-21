@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: All customers' details. Includes anonymous users who used guest checkout.
+    columns:
+      - name: sk_customer
+        description: Surrogate key of the customer dimension.
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_products
+    columns:
+      - name: sk_product 
+        data_tests: 
+          - unique
+          - not_null
+          
+  - name: dim_channels
+    description: Channels data. Allows you to analyze linked facts from the channels perspective.
+    columns:
+      - name: sk_channel
+        description: surrogat key of the channels dimension
+        data_tests:
+          - not_null
+          - unique
+          
+  - name: dim_date
+    description: Date data. Allows you to analyze linked facts from the dateperspective.
+    columns:
+      - name: date_day
+        description: surrogate key for the date dimension
+        data_tests:
+          - not_null
+          - unique
+  
+  - name: fct_purchase_history
+    columns:
+      
+      - name: sk_customer
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_customers')
+                field: sk_customer
+
+      - name: sk_product
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_product')
+                field: sk_product
+
+      - name: sk_channel
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_channel')
+                field: sk_channel
+
+  - name: fct_visits_history
+    columns:
+      - name: sk_customer
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_customers')
+                field: sk_customer
+
+      - name: sk_channel
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_channel')
+                field: sk_channel

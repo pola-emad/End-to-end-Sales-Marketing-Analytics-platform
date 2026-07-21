@@ -6,7 +6,7 @@ with raw_products AS
         unit_price,
         CREATED_AT,
         UPDATED_AT
-    FROM {{ source("omnichannel","Products")}}
+    FROM {{ source("omnichannel","products")}}
 )
 SELECT
 *

@@ -5,7 +5,7 @@ with raw_channels AS
         channel_name,
         CREATED_AT,
         UPDATED_AT
-    FROM {{ source("omnichannel","Channels")}}
+    FROM {{ source("omnichannel","channels")}}
 )
 SELECT
 *

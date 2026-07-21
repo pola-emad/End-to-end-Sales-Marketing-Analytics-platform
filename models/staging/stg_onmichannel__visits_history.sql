@@ -7,6 +7,7 @@ with raw_visit_history AS
         bounce_timestamp,
         created_at,
         updated_at
-    FROM {{ source("omnichannel","VisitHistory")}}
+    FROM {{ source("omnichannel","visitHistory")}}
 )
-SELECT
+SELECT *
+FROM raw_visit_history

@@ -9,7 +9,7 @@ with raw_customers AS
         country,
         CREATED_AT,
         UPDATED_AT
-    FROM {{ source("omnichannel","Customers")}}
+    FROM {{ source("omnichannel","customers")}}
 )
 SELECT
 *

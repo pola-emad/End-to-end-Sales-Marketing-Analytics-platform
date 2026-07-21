@@ -4,8 +4,8 @@ sources:
     database: dbt-ae-book
     schema: omnichannel_raw
     tables:
-      - name: Channels
-      - name: Customers
-      - name: Products
-      - name: VisitHistory
-      - name: PurchaseHistory
+      - name: channels
+      - name: customers
+      - name: products
+      - name: visitHistory
+      - name: purchaseHistory
