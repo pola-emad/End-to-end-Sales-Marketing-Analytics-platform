@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: dim_customer
+    columns:
+      - name: sk_customer
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_products
+    columns:
+      - name: sk_product 
+        data_tests: 
+          - unique
+          - not_null
+          
+  - name: dim_channels
+    columns:
+      - name: sk_channel
+        data_tests:
+          - not_null
+          - unique
+          
+  - name: dim_date
+    columns:
+      - name: date_day
+        data_tests:
+          - not_null
+          - unique
+  
+  - name: fct_purchase_history
+    columns:
+      
+      - name: sk_customer
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_customers')
+                field: sk_customer
+
+      - name: sk_product
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_product')
+                field: sk_product
+
+      - name: sk_channel
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_channel')
+                field: sk_channel
+
+  - name: fct_visits_history
+    columns:
+      - name: sk_customer
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_customers')
+                field: sk_customer
+
+      - name: sk_channel
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('dim_channel')
+                field: sk_channel
