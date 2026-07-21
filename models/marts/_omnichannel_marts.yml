@@ -2,8 +2,10 @@ version: 2
 
 models:
   - name: dim_customer
+    description: All customers' details. Includes anonymous users who used guest checkout.
     columns:
       - name: sk_customer
+        description: Surrogate key of the customer dimension.
         data_tests:
           - unique
           - not_null
@@ -16,15 +18,19 @@ models:
           - not_null
           
   - name: dim_channels
+    description: Channels data. Allows you to analyze linked facts from the channels perspective.
     columns:
       - name: sk_channel
+        description: surrogat key of the channels dimension
         data_tests:
           - not_null
           - unique
           
   - name: dim_date
+    description: Date data. Allows you to analyze linked facts from the dateperspective.
     columns:
       - name: date_day
+        description: surrogate key for the date dimension
         data_tests:
           - not_null
           - unique
