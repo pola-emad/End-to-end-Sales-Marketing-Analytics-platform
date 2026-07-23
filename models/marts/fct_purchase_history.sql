@@ -11,6 +11,7 @@ with stg_fct_purchase_history AS
 )
 
 SELECT
+    {{dbt_utils.generate_surrogate_key(["dcust.sk_customer", "dchan.sk_channel", "dprod.sk_product"])}} AS sk_purchase_history,
     COALESCE(dcust.sk_customer, '-1') AS sk_customer,
     COALESCE(dchan.sk_channel, '-1') AS sk_channel,
     COALESCE(dprod.sk_product, '-1') AS sk_product,
