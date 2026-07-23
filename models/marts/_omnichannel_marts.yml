@@ -1,6 +1,7 @@
 version: 2
 
 models:
+    # dimensions
   - name: dim_customer
     description: All customers' details. Includes anonymous users who used guest checkout.
     columns:
@@ -34,7 +35,7 @@ models:
         data_tests:
           - not_null
           - unique
-  
+  # facts
   - name: fct_purchase_history
     columns:
       
@@ -49,14 +50,14 @@ models:
         data_tests:
           - relationships:
               arguments: 
-                to: ref('dim_product')
+                to: ref('dim_products')
                 field: sk_product
 
       - name: sk_channel
         data_tests:
           - relationships:
               arguments: 
-                to: ref('dim_channel')
+                to: ref('dim_channels')
                 field: sk_channel
 
   - name: fct_visits_history
@@ -72,5 +73,5 @@ models:
         data_tests:
           - relationships:
               arguments: 
-                to: ref('dim_channel')
+                to: ref('dim_channels')
                 field: sk_channel
