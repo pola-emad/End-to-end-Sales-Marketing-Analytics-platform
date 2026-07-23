@@ -2,7 +2,7 @@ version: 2
 
 models:
     # dimensions
-  - name: dim_customer
+  - name: dim_customers
     description: All customers' details. Includes anonymous users who used guest checkout.
     columns:
       - name: sk_customer
