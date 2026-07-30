@@ -160,3 +160,27 @@ models:
         type: simple
         agg: sum
         expr: mtr_length_of_stay_minutes
+
+metrics:
+  - name: avg_stay_minutes
+    type: ratio
+    label: Average Stay Minutes
+    numerator:
+      name: total_stay_minutes
+    denominator:
+      name: total_visits
+
+  - name: avg_revenue_per_visit
+    type: ratio
+    label: Average Revenue per Visit
+    numerator:
+      name: total_revenue
+    denominator:
+      name: total_visits
+
+  - name: monthly_revenue
+    type: cumulative
+    input_metric: total_revenue
+    window: 1 month
+    
+      
