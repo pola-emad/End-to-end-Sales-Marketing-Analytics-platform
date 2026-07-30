@@ -143,6 +143,11 @@ models:
           type: primary
           name: visit
       - name: sk_customer
+
+        entity: 
+          type: foreign
+          name: customer
+
         data_tests:
           - relationships:
               arguments: 
@@ -150,11 +155,28 @@ models:
                 field: sk_customer
 
       - name: sk_channel
+
+        entity: 
+          type: foreign
+          name: channel
+
         data_tests:
           - relationships:
               arguments: 
                 to: ref('dim_channels')
                 field: sk_channel
+
+      - name: sk_date_visit
+        granularity: day
+        entity: 
+          type: foreign
+          name: visit_date
+
+      - name: sk_date_bounce
+        granularity: day
+        entity: 
+          type: foreign
+          name: bounce_date
       
       - name: dt_visit_timestamp
         granularity: minute
