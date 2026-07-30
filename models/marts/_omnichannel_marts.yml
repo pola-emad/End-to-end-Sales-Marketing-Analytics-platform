@@ -108,6 +108,7 @@ models:
                 field: sk_channel
       
       - name: sk_orer_date
+        granularity: day
         dimension: 
           type: time
           name: order_date
