@@ -117,6 +117,12 @@ models:
         description: Total amount of the purchase after discount
   
     metrics: 
+
+      - name: order_count
+        type: simple
+        agg: sum
+        expr: 1
+
       - name: total_revenue
         description: total money earned from the purchases after discount
         type: simple
