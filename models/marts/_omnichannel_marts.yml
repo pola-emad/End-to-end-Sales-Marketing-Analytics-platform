@@ -107,6 +107,11 @@ models:
                 to: ref('dim_channels')
                 field: sk_channel
       
+      - name: sk_orer_date
+        dimension: 
+          type: time
+          name: order_date
+      
       - name: mtr_quantity
         description: Total quantity of products purchased by the customer.
       
