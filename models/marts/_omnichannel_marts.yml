@@ -133,6 +133,9 @@ models:
     semantic_model:
       enabled: true
       name: visits_history
+
+    agg_time_dimension: visit_time
+    
     columns:
       - name: sk_customer
         data_tests:
@@ -147,7 +150,15 @@ models:
               arguments: 
                 to: ref('dim_channels')
                 field: sk_channel
-    
+      
+      - name: sk_visit_timestamp
+        granularity: hour
+      
+        dimension:
+          name: visit_time
+          type: time
+
+
     metrics: 
       - name: total_visits
         description: total number of visits to the website
