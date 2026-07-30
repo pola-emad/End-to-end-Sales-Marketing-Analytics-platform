@@ -1,28 +1,48 @@
 version: 2
 
 models:
-    # dimensions
+    # dimension tables
   - name: dim_customers
     description: All customers' details. Includes anonymous users who used guest checkout.
+    semantic_model:
+      enabled: true
     columns:
       - name: sk_customer
         description: Surrogate key of the customer dimension.
+        
+        entity:
+          name: customers
+          type: primary
+
         data_tests:
           - unique
           - not_null
 
   - name: dim_products
+    semantic_model:
+      enabled: true
+
     columns:
       - name: sk_product 
+
+        entity:
+          name: products
+          type: primary
+          
         data_tests: 
           - unique
           - not_null
           
   - name: dim_channels
+    semantic_model:
+      enabled: true
     description: Channels data. Allows you to analyze linked facts from the channels perspective.
     columns:
       - name: sk_channel
         description: surrogat key of the channels dimension
+        entity:
+          name: channels
+          type: primary
         data_tests:
           - not_null
           - unique
@@ -37,9 +57,26 @@ models:
           - unique
   # facts
   - name: fct_purchase_history
+    semantic_model:
+      enabled: true
+      name: purchase_history
+    
+    agg_time_dimension: sk_order_date
     columns:
-      
+
+      - name: sk_purchase_history
+        entity:
+          name: orders
+          type: primary
+          
+        data_tests:
+          - unique
+          - not_null
       - name: sk_customer
+        entity:
+          name: customers
+          type: foreign
+
         data_tests:
           - relationships:
               arguments: 
@@ -47,6 +84,10 @@ models:
                 field: sk_customer
 
       - name: sk_product
+        entity:
+          name: products
+          type: foreign
+
         data_tests:
           - relationships:
               arguments: 
@@ -54,13 +95,44 @@ models:
                 field: sk_product
 
       - name: sk_channel
+        entity:
+          name: channels
+          type: foreign
         data_tests:
           - relationships:
               arguments: 
                 to: ref('dim_channels')
                 field: sk_channel
+      
+      - name: mtr_quantity
+        description: Total quantity of products purchased by the customer.
+      
+      - name: mtr_discount
+        description: discount percentage
+      
+      - name: mtr_total_amount_gross
+        description: Total amount of the purchase before discount
+      
+      - name: mtr_total_amount_net
+        description: Total amount of the purchase after discount
+  
+    metrics: 
+      - name: total_revenue
+        description: total money earned from the purchases after discount
+        type: simple
+        agg: sum
+        expr: mtr_total_amount_net
+
+      - name: total_gross_revenue
+        description: total money of the purchases before discount
+        type: simple
+        agg: sum
+        expr: mtr_total_amount_gross
 
   - name: fct_visits_history
+    semantic_model:
+      enabled: true
+      name: visits_history
     columns:
       - name: sk_customer
         data_tests:
@@ -75,3 +147,16 @@ models:
               arguments: 
                 to: ref('dim_channels')
                 field: sk_channel
+    
+    metrics: 
+      - name: total_visits
+        description: total number of visits to the website
+        type: simple
+        agg: sum
+        expr: 1
+
+      - name: total_stay_minutes
+        description: total time spent on the website in minutes
+        type: simple
+        agg: sum
+        expr: mtr_length_of_stay_minutes
