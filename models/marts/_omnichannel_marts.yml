@@ -221,4 +221,13 @@ metrics:
     input_metric: total_revenue
     window: 1 month
     
+  - name: d7_visits_change
+    type: derived
+    expr: current_visits - visits_7_days_ago
+    input_metrics:
+      - name: total_visits
+        alias: current_visits
       
+      - name: total_visits
+        offset_window: 7 days
+        alias: visits_7_days_ago
