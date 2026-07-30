@@ -49,9 +49,12 @@ models:
           
   - name: dim_date
     description: Date data. Allows you to analyze linked facts from the dateperspective.
+    time_spine: 
+      standard_granularity_column: date_day
     columns:
       - name: date_day
         description: surrogate key for the date dimension
+        granularity: day
         data_tests:
           - not_null
           - unique
