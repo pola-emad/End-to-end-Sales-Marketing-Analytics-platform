@@ -64,7 +64,7 @@ models:
       enabled: true
       name: purchase_history
     
-    agg_time_dimension: sk_order_date
+    agg_time_dimension: order_date
     columns:
 
       - name: sk_purchase_history
@@ -107,7 +107,7 @@ models:
                 to: ref('dim_channels')
                 field: sk_channel
       
-      - name: sk_orer_date
+      - name: sk_order_date
         granularity: day
         dimension: 
           type: time
