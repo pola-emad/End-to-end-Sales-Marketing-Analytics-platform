@@ -42,5 +42,8 @@ models:
     marts: 
       +materialized: table
 
+seeds:
+  +column_types:
+    string: string
 
 
