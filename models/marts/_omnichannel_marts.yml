@@ -107,7 +107,7 @@ models:
                 to: ref('dim_channels')
                 field: sk_channel
       
-      - name: sk_order_date
+      - name: dt_order_date
         granularity: day
         dimension: 
           type: time
@@ -161,7 +161,7 @@ models:
 
         entity: 
           type: foreign
-          name: customer
+          name: customers
 
         data_tests:
           - relationships:
@@ -173,7 +173,7 @@ models:
 
         entity: 
           type: foreign
-          name: channel
+          name: channels
 
         data_tests:
           - relationships:
@@ -192,7 +192,7 @@ models:
         entity: 
           type: foreign
           name: bounce_date
-      
+      # dimensions
       - name: dt_visit_timestamp
         granularity: minute
       

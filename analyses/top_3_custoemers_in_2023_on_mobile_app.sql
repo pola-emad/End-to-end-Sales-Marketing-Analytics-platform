@@ -4,7 +4,7 @@ with base as
         dcust.dsc_name,
         dcust.dsc_email_address,
         ROUND(SUM(fct.mtr_total_amount_net),2) as sum_total_amount
-    from {{ref('fct_purchase_history')}} as fct left join {{ref('dim_date')}} as dd on fct.sk_order_date = dd.date_day
+    from {{ref('fct_purchase_history')}} as fct left join {{ref('dim_date')}} as dd on fct.dt_order_date = dd.date_day
     left join {{ref('dim_channels')}} dc on dc.sk_channel = fct.sk_channel
     left join {{ref('dim_customers')}} dcust on dcust.sk_customer = fct.sk_customer
 
