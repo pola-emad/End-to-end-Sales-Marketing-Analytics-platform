@@ -11,6 +11,8 @@ with stg_fct_visit_history AS
 )
 
 SELECT
+    {{dbt_utils.generate_surrogate_key(["dcust.sk_customer", "dchan.sk_channel", "fct.dt_visit_timestamp"])}}
+    as sk_visit,
     COALESCE(dcust.sk_customer, '-1') AS sk_customer,
     COALESCE(dchan.sk_channel, '-1') AS sk_channel,
     fct.sk_date_visit,
