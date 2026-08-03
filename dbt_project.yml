@@ -42,5 +42,10 @@ models:
     marts: 
       +materialized: table
 
+seeds:
+  sales_and_marketing_Data_platform:
+    +schema: omnichannel_raw
+    +column_types:
+      string: string
 
 

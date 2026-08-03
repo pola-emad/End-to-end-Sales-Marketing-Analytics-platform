@@ -3,12 +3,12 @@ with raw_customers AS
     SELECT
         customer_id,
         name,
-        date_birth,
+        safe_cast(date_birth as date) as date_birth,
         email_address,
         phone_number,
         country,
-        CREATED_AT,
-        UPDATED_AT
+        safe_cast(CREATED_AT as timestamp) as CREATED_AT,
+        safe_cast(UPDATED_AT as timestamp) as UPDATED_AT
     FROM {{ source("omnichannel","customers")}}
 )
 SELECT
