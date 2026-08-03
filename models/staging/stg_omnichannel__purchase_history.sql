@@ -6,7 +6,7 @@ with raw_purchase_history AS
         channel_id,
         safe_cast( quantity as numeric) as quantity,
         safe_cast( discount as numeric) as discount,
-        safe_cast( order_date as date) as order_date
+        safe_cast( CREATED_AT as timestamp) as order_date
     FROM {{ source("omnichannel","purchaseHistory")}}
 )
 SELECT
