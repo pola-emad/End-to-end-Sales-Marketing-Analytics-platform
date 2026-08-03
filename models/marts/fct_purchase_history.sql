@@ -6,12 +6,13 @@ with stg_fct_purchase_history AS
         channel_id AS nk_channel_id,
         quantity AS mtr_quantity,
         discount AS mtr_discount,
-        order_date  AS dt_order_date
+        order_date  AS dt_order_date,
+        purchase_sku
     FROM {{ ref("stg_omnichannel__purchase_history")}}
 )
 
 SELECT
-    {{dbt_utils.generate_surrogate_key(["dt_order_date","dcust.sk_customer", "dchan.sk_channel", "dprod.sk_product"])}} 
+    {{dbt_utils.generate_surrogate_key(["fct.purchase_sku"])}} 
     AS sk_purchase_history,
     COALESCE(dcust.sk_customer, '-1') AS sk_customer,
     COALESCE(dchan.sk_channel, '-1') AS sk_channel,
