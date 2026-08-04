@@ -18,6 +18,21 @@ models:
           - unique
           - not_null
 
+      # dimensions
+      - name: dsc_name
+        description: descriptive name of the customer
+
+        dimension:
+          type: categorical
+          name: customer_name
+      
+      - name: dsc_country
+        description: descriptive country of the customer
+
+        dimension:
+          type: categorical
+          name: customer_country
+
   - name: dim_products
     semantic_model:
       enabled: true
@@ -156,7 +171,7 @@ models:
         type: simple
         agg: count_distinct
         expr: sk_product
-        
+
       - name: total_revenue
         description: total money earned from the purchases after discount
         type: simple
