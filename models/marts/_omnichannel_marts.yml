@@ -191,6 +191,10 @@ models:
         agg: sum
         expr: mtr_unit_price * mtr_quantity * mtr_discount
 
+      - name: avg_discount_amount
+        type: simple
+        agg: average
+        expr: mtr_discount
 
   - name: fct_visits_history
     semantic_model:
@@ -319,11 +323,4 @@ metrics:
     denominator:
       name: order_count
 
-  # - name: total_discount_given
-  #   description: Total magnitude value of discount given to customers 
-  #   type: derived
-  #   expr: (mtr_quantity * mtr_unit_price * mtr_discount)
-  #   input_metrics:
-  #     - name: mtr_quantity
-  #     - name: mtr_unit_price
-  #     - name: mtr_discount
+
