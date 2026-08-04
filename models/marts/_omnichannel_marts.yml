@@ -157,7 +157,7 @@ models:
       - name: sk_visit
         entity: 
           type: primary
-          name: visit
+          name: visits
 
       - name: sk_customer
 
@@ -210,8 +210,9 @@ models:
           type: time
           name: bounce_time
 
+      # normal columns
       - name: mtr_length_of_stay_minutes
-        
+
           
     # simple metrics
     metrics: 
