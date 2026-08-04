@@ -191,6 +191,11 @@ models:
         agg: sum
         expr: mtr_unit_price * mtr_quantity * mtr_discount
 
+      - name: total_discounted_orders
+        type: simple
+        agg: sum
+        expr: case when mtr_discount = 0 then 0 else 1 end
+      
       - name: avg_discount_amount
         type: simple
         agg: average
