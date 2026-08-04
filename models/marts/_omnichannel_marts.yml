@@ -153,11 +153,12 @@ models:
     agg_time_dimension: visit_time
     
     columns:
-
+      # entities
       - name: sk_visit
         entity: 
           type: primary
           name: visit
+
       - name: sk_customer
 
         entity: 
@@ -193,6 +194,7 @@ models:
         entity: 
           type: foreign
           name: bounce_date
+      
       # dimensions
       - name: dt_visit_timestamp
         granularity: minute
@@ -201,7 +203,7 @@ models:
           type: time
           name: visit_time
           
-
+    # simple metrics
     metrics: 
       - name: total_visits
         description: total number of visits to the website
