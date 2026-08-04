@@ -219,6 +219,18 @@ models:
         agg: average
         expr: mtr_discount
 
+      - name: active_customers
+        description: Distinct count of customers who placed at least one order
+        type: simple
+        agg: count_distinct
+        expr: sk_customer
+
+      - name: repeat_customers
+        description: Distinct count of customers who placed 2 or more orders
+        type: simple
+        agg: count_distinct
+        expr: case when order_count >= 2 then sk_customer else null end
+  
   - name: fct_visits_history
     semantic_model:
       enabled: true
@@ -387,4 +399,12 @@ metrics:
     denominator:
       name: total_gross_revenue
 
-  
+  # customer metrics
+  - name: repeat_purchase_rate
+    type: ratio
+    label: Repeat Purchase Rate
+    description: Percentage of purchasing customers who completed more than one order
+    numerator:
+      name: repeat_customers
+    denominator:
+      name: active_customers
