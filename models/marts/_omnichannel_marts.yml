@@ -18,11 +18,27 @@ models:
           - unique
           - not_null
 
+      # dimensions
+      - name: dsc_name
+        description: descriptive name of the customer
+
+        dimension:
+          type: categorical
+          name: customer_name
+      
+      - name: dsc_country
+        description: descriptive country of the customer
+
+        dimension:
+          type: categorical
+          name: customer_country
+
   - name: dim_products
     semantic_model:
       enabled: true
 
     columns:
+      # entities
       - name: sk_product 
 
         entity:
@@ -32,7 +48,24 @@ models:
         data_tests: 
           - unique
           - not_null
-          
+
+      # dimensions
+      - name: dsc_product_name
+        description: descriptive name of the product
+
+        dimension:
+          type: categorical
+          name: product_name
+
+      # normal columns
+      - name: mtr_unit_price
+        description: Price of the product per unit
+      
+      - name: dt_created_at
+        description: date when the record was created or loaded into the source    
+      
+      - name: dt_updated_at
+        description: date when the record was last updated in the source
   - name: dim_channels
     semantic_model:
       enabled: true
@@ -123,11 +156,15 @@ models:
           type: time
           name: order_date
       
+      # normal columns
       - name: mtr_quantity
         description: Total quantity of products purchased by the customer.
       
       - name: mtr_discount
         description: discount percentage
+
+      - name: mtr_unit_price
+        description: Price of the product per unit
       
       - name: mtr_total_amount_gross
         description: Total amount of the purchase before discount
@@ -141,6 +178,18 @@ models:
         type: simple
         agg: sum
         expr: 1
+      
+      - name: units_sold
+        description: total number of product items sold
+        type: simple
+        agg: sum
+        expr: mtr_quantity
+
+      - name: unique_products_sold
+        description: Count of distinct products purchased across orders
+        type: simple
+        agg: count_distinct
+        expr: sk_product
 
       - name: total_revenue
         description: total money earned from the purchases after discount
@@ -154,6 +203,34 @@ models:
         agg: sum
         expr: mtr_total_amount_gross
 
+      - name: total_discount_value
+        description: Total dollar value discounted calculated at item-level
+        type: simple
+        agg: sum
+        expr: mtr_unit_price * mtr_quantity * mtr_discount
+
+      - name: total_discounted_orders
+        type: simple
+        agg: sum
+        expr: case when mtr_discount = 0 then 0 else 1 end
+      
+      - name: avg_discount_amount
+        type: simple
+        agg: average
+        expr: mtr_discount
+
+      - name: active_customers
+        description: Distinct count of customers who placed at least one order
+        type: simple
+        agg: count_distinct
+        expr: sk_customer
+
+      - name: repeat_customers
+        description: Distinct count of customers who placed 2 or more orders
+        type: simple
+        agg: count_distinct
+        expr: case when order_count >= 2 then sk_customer else null end
+  
   - name: fct_visits_history
     semantic_model:
       enabled: true
@@ -237,7 +314,31 @@ models:
         agg: sum
         expr: mtr_length_of_stay_minutes
 
+      - name: total_bounces
+        description: total number of bounces (visits with less than 1 minute)
+        type: simple
+        agg: sum
+        expr: case when mtr_length_of_stay_minutes < 1 then 1 else 0 end
 metrics:
+  # marketing metrics
+  - name: conversion_rate
+    description: Conversion rate (orders / visits) percentage
+    type: ratio
+    label: Conversion Rate
+    numerator:
+      name: order_count
+    denominator:
+      name: total_visits
+  
+  - name: bounce_rate
+    description: Bounce rate (bounces / visits) percentage
+    type: ratio
+    label: Bounce Rate
+    numerator:
+      name: total_bounces
+    denominator:
+      name: total_visits
+
   - name: avg_stay_minutes
     type: ratio
     label: Average Stay Minutes
@@ -246,19 +347,6 @@ metrics:
     denominator:
       name: total_visits
 
-  - name: avg_revenue_per_visit
-    type: ratio
-    label: Average Revenue per Visit
-    numerator:
-      name: total_revenue
-    denominator:
-      name: total_visits
-
-  - name: monthly_revenue
-    type: cumulative
-    input_metric: total_revenue
-    window: 1 month
-    
   - name: d7_visits_change
     type: derived
     expr: current_visits - visits_7_days_ago
@@ -269,3 +357,71 @@ metrics:
       - name: total_visits
         offset_window: 7 days
         alias: visits_7_days_ago
+
+  - name: avg_revenue_per_visit
+    type: ratio
+    label: Average Revenue per Visit
+    numerator:
+      name: total_revenue
+    denominator:
+      name: total_visits
+
+  # financial metrics
+  - name: monthly_revenue
+    type: cumulative
+    input_metric: total_revenue
+    window: 1 month
+    
+  - name: aov
+    description: Average Order Value
+    type: ratio
+    label: Average Order Value
+    numerator:
+      name: total_revenue
+    denominator:
+      name: order_count
+
+  - name: avg_discount_per_order
+    description: Average discount per order (for orders with a discount applied only)
+    type: ratio
+    label: Average Discount per Order
+    numerator:
+      name: total_discount_value
+    denominator:
+      name: total_discounted_orders
+
+  - name: effective_discount_rate
+    description: Effective discount rate (for orders with a discount applied only)
+    type: ratio
+    label: Effective Discount Rate
+    numerator:
+      name: total_discount_value
+    denominator:
+      name: total_gross_revenue
+
+  - name: upt
+    type: ratio
+    label: Units Per Transaction (UPT)
+    description: Average number of units purchased per order
+    numerator:
+      name: units_sold
+    denominator:
+      name: order_count
+
+  # customer metrics
+  - name: repeat_purchase_rate
+    type: ratio
+    label: Repeat Purchase Rate
+    description: Percentage of purchasing customers who completed more than one order
+    numerator:
+      name: repeat_customers
+    denominator:
+      name: active_customers
+
+  - name: rolling_30d_revenue
+    type: cumulative
+    label: Rolling 30-Day Revenue
+    description: Cumulative revenue over a continuous rolling 30-day window
+    window: 30 days
+    input_metric: total_revenue
+    
