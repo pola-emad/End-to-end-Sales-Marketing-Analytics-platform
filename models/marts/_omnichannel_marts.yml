@@ -286,6 +286,14 @@ models:
 
 metrics:
   # marketing metrics
+  - name: conversion_rate
+    description: Conversion rate (orders / visits) percentage
+    type: ratio
+    label: Conversion Rate
+    numerator:
+      name: order_count
+    denominator:
+      name: total_visits
   - name: avg_stay_minutes
     type: ratio
     label: Average Stay Minutes
