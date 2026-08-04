@@ -38,6 +38,7 @@ models:
       enabled: true
 
     columns:
+      # entities
       - name: sk_product 
 
         entity:
@@ -47,7 +48,24 @@ models:
         data_tests: 
           - unique
           - not_null
-          
+
+      # dimensions
+      - name: dsc_product_name
+        description: descriptive name of the product
+
+        dimension:
+          type: categorical
+          name: product_name
+
+      # normal columns
+      - name: mtr_unit_price
+        description: Price of the product per unit
+      
+      - name: dt_created_at
+        description: date when the record was created or loaded into the source    
+      
+      - name: dt_updated_at
+        description: date when the record was last updated in the source
   - name: dim_channels
     semantic_model:
       enabled: true
