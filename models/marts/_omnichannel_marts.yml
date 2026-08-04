@@ -151,6 +151,12 @@ models:
         agg: sum
         expr: mtr_quantity
 
+      - name: unique_products_sold
+        description: Count of distinct products purchased across orders
+        type: simple
+        agg: count_distinct
+        expr: sk_product
+        
       - name: total_revenue
         description: total money earned from the purchases after discount
         type: simple
