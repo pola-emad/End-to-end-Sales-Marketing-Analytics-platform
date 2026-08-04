@@ -269,6 +269,7 @@ models:
         expr: mtr_length_of_stay_minutes
 
 metrics:
+  # market metrics
   - name: avg_stay_minutes
     type: ratio
     label: Average Stay Minutes
@@ -277,19 +278,6 @@ metrics:
     denominator:
       name: total_visits
 
-  - name: avg_revenue_per_visit
-    type: ratio
-    label: Average Revenue per Visit
-    numerator:
-      name: total_revenue
-    denominator:
-      name: total_visits
-
-  - name: monthly_revenue
-    type: cumulative
-    input_metric: total_revenue
-    window: 1 month
-    
   - name: d7_visits_change
     type: derived
     expr: current_visits - visits_7_days_ago
@@ -300,3 +288,31 @@ metrics:
       - name: total_visits
         offset_window: 7 days
         alias: visits_7_days_ago
+
+  - name: avg_revenue_per_visit
+    type: ratio
+    label: Average Revenue per Visit
+    numerator:
+      name: total_revenue
+    denominator:
+      name: total_visits
+
+  # financial metrics
+  - name: monthly_revenue
+    type: cumulative
+    input_metric: total_revenue
+    window: 1 month
+    
+  - name: AOV
+    description: Average Order Value
+    type: ratio
+    label: Average Order Value
+    numerator:
+      name: total_revenue
+    denominator:
+      name: order_count
+
+  - name: total_discount_given
+    description: Total magnitude value of discount given to customers 
+    type: derived
+    expr: (mtr_quantity * mtr_unit_price * mtr_discount)
