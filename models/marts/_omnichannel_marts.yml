@@ -302,6 +302,11 @@ models:
         agg: sum
         expr: mtr_length_of_stay_minutes
 
+      - name: total_bounces
+        description: total number of bounces (visits with less than 1 minute)
+        type: simple
+        agg: sum
+        expr: case when mtr_length_of_stay_minutes < 1 then 1 else 0 end
 metrics:
   # marketing metrics
   - name: conversion_rate
@@ -312,6 +317,16 @@ metrics:
       name: order_count
     denominator:
       name: total_visits
+  
+  - name: bounce_rate
+    description: Bounce rate (bounces / visits) percentage
+    type: ratio
+    label: Bounce Rate
+    numerator:
+      name: total_bounces
+    denominator:
+      name: total_visits
+
   - name: avg_stay_minutes
     type: ratio
     label: Average Stay Minutes
