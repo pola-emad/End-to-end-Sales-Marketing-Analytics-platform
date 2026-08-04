@@ -285,7 +285,7 @@ models:
         expr: mtr_length_of_stay_minutes
 
 metrics:
-  # market metrics
+  # marketing metrics
   - name: avg_stay_minutes
     type: ratio
     label: Average Stay Minutes
@@ -328,4 +328,22 @@ metrics:
     denominator:
       name: order_count
 
+  - name: avg_discount_per_order
+    description: Average discount per order (for orders with a discount applied only)
+    type: ratio
+    label: Average Discount per Order
+    numerator:
+      name: total_discount_value
+    denominator:
+      name: total_discounted_orders
 
+  - name: effective_discount_rate
+    description: Effective discount rate (for orders with a discount applied only)
+    type: ratio
+    label: Effective Discount Rate
+    numerator:
+      name: total_discount_value
+    denominator:
+      name: total_gross_revenue
+
+  -
