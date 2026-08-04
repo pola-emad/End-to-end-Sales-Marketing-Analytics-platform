@@ -65,8 +65,9 @@ models:
       name: purchase_history
     
     agg_time_dimension: order_date
+    
     columns:
-
+      # entities
       - name: sk_purchase_history
         entity:
           name: orders
@@ -106,7 +107,7 @@ models:
               arguments: 
                 to: ref('dim_channels')
                 field: sk_channel
-      
+      # dimensions
       - name: dt_order_date
         granularity: day
         dimension: 
@@ -124,7 +125,7 @@ models:
       
       - name: mtr_total_amount_net
         description: Total amount of the purchase after discount
-  
+    # simple metrics
     metrics: 
 
       - name: order_count
