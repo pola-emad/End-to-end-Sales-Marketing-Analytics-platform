@@ -399,6 +399,15 @@ metrics:
     denominator:
       name: total_gross_revenue
 
+  - name: upt
+    type: ratio
+    label: Units Per Transaction (UPT)
+    description: Average number of units purchased per order
+    numerator:
+      name: units_sold
+    denominator:
+      name: order_count
+
   # customer metrics
   - name: repeat_purchase_rate
     type: ratio
@@ -413,6 +422,6 @@ metrics:
     type: cumulative
     label: Rolling 30-Day Revenue
     description: Cumulative revenue over a continuous rolling 30-day window
-    type_params:
-      input_metric: total_revenue
-      window: 30 days
+    window: 30 days
+    input_metric: total_revenue
+    
