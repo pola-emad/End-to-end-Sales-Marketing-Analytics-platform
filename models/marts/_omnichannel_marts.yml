@@ -185,6 +185,13 @@ models:
         agg: sum
         expr: mtr_total_amount_gross
 
+      - name: total_discount_value
+        description: Total dollar value discounted calculated at item-level
+        type: simple
+        agg: sum
+        expr: mtr_unit_price * mtr_quantity * mtr_discount
+
+
   - name: fct_visits_history
     semantic_model:
       enabled: true
@@ -303,7 +310,7 @@ metrics:
     input_metric: total_revenue
     window: 1 month
     
-  - name: AOV
+  - name: aov
     description: Average Order Value
     type: ratio
     label: Average Order Value
@@ -312,7 +319,11 @@ metrics:
     denominator:
       name: order_count
 
-  - name: total_discount_given
-    description: Total magnitude value of discount given to customers 
-    type: derived
-    expr: (mtr_quantity * mtr_unit_price * mtr_discount)
+  # - name: total_discount_given
+  #   description: Total magnitude value of discount given to customers 
+  #   type: derived
+  #   expr: (mtr_quantity * mtr_unit_price * mtr_discount)
+  #   input_metrics:
+  #     - name: mtr_quantity
+  #     - name: mtr_unit_price
+  #     - name: mtr_discount
