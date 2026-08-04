@@ -408,3 +408,11 @@ metrics:
       name: repeat_customers
     denominator:
       name: active_customers
+
+  - name: rolling_30d_revenue
+    type: cumulative
+    label: Rolling 30-Day Revenue
+    description: Cumulative revenue over a continuous rolling 30-day window
+    type_params:
+      input_metric: total_revenue
+      window: 30 days
