@@ -122,11 +122,15 @@ models:
           type: time
           name: order_date
       
+      # normal columns
       - name: mtr_quantity
         description: Total quantity of products purchased by the customer.
       
       - name: mtr_discount
         description: discount percentage
+
+      - name: mtr_unit_price
+        description: Price of the product per unit
       
       - name: mtr_total_amount_gross
         description: Total amount of the purchase before discount
@@ -140,6 +144,12 @@ models:
         type: simple
         agg: sum
         expr: 1
+      
+      - name: units_sold
+        description: total number of product items sold
+        type: simple
+        agg: sum
+        expr: mtr_quantity
 
       - name: total_revenue
         description: total money earned from the purchases after discount
