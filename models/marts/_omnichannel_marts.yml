@@ -38,6 +38,7 @@ models:
       enabled: true
     description: Channels data. Allows you to analyze linked facts from the channels perspective.
     columns:
+      # entities
       - name: sk_channel
         description: surrogat key of the channels dimension
         entity:
@@ -46,6 +47,13 @@ models:
         data_tests:
           - not_null
           - unique
+
+      - name: dsc_channel_name
+        description: descriptive name of the channel
+
+        dimension:
+          type: categorical
+          name: channel_name
           
   - name: dim_date
     description: Date data. Allows you to analyze linked facts from the dateperspective.
