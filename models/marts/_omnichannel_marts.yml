@@ -38,6 +38,7 @@ models:
       enabled: true
     description: Channels data. Allows you to analyze linked facts from the channels perspective.
     columns:
+      # entities
       - name: sk_channel
         description: surrogat key of the channels dimension
         entity:
@@ -46,6 +47,14 @@ models:
         data_tests:
           - not_null
           - unique
+
+      - name: dsc_channel_name
+        description: descriptive name of the channel
+
+        # dimensions
+        dimension:
+          type: categorical
+          name: channel_name
           
   - name: dim_date
     description: Date data. Allows you to analyze linked facts from the dateperspective.
@@ -65,8 +74,9 @@ models:
       name: purchase_history
     
     agg_time_dimension: order_date
+    
     columns:
-
+      # entities
       - name: sk_purchase_history
         entity:
           name: orders
@@ -106,8 +116,8 @@ models:
               arguments: 
                 to: ref('dim_channels')
                 field: sk_channel
-      
-      - name: sk_order_date
+      # dimensions
+      - name: dt_order_date
         granularity: day
         dimension: 
           type: time
@@ -124,7 +134,7 @@ models:
       
       - name: mtr_total_amount_net
         description: Total amount of the purchase after discount
-  
+    # simple metrics
     metrics: 
 
       - name: order_count
@@ -152,16 +162,17 @@ models:
     agg_time_dimension: visit_time
     
     columns:
-
+      # entities
       - name: sk_visit
         entity: 
           type: primary
-          name: visit
+          name: visits
+
       - name: sk_customer
 
         entity: 
           type: foreign
-          name: customer
+          name: customers
 
         data_tests:
           - relationships:
@@ -173,7 +184,7 @@ models:
 
         entity: 
           type: foreign
-          name: channel
+          name: channels
 
         data_tests:
           - relationships:
@@ -193,14 +204,26 @@ models:
           type: foreign
           name: bounce_date
       
+      # dimensions
       - name: dt_visit_timestamp
         granularity: minute
       
         dimension:
           type: time
           name: visit_time
-          
+      
+      - name: dt_bounce_timestamp
+        granularity: minute
+      
+        dimension:
+          type: time
+          name: bounce_time
 
+      # normal columns
+      - name: mtr_length_of_stay_minutes
+
+          
+    # simple metrics
     metrics: 
       - name: total_visits
         description: total number of visits to the website

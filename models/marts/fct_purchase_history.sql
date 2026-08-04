@@ -17,7 +17,7 @@ SELECT
     COALESCE(dcust.sk_customer, '-1') AS sk_customer,
     COALESCE(dchan.sk_channel, '-1') AS sk_channel,
     COALESCE(dprod.sk_product, '-1') AS sk_product,
-    fct.dt_order_date AS sk_order_date,
+    fct.dt_order_date AS dt_order_date,
     fct.mtr_quantity,
     fct.mtr_discount,
     dprod.mtr_unit_price,
