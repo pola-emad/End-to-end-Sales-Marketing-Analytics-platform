@@ -51,6 +51,7 @@ models:
       - name: dsc_channel_name
         description: descriptive name of the channel
 
+        # dimensions
         dimension:
           type: categorical
           name: channel_name
